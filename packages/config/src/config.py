@@ -66,6 +66,7 @@ async def disconnect():
     api.close()
     return True
 
+'''
 # Example usage
 async def main():
     blockchain_rpc_ws_url = "ws://127.0.0.1:9944"
@@ -79,3 +80,4 @@ async def main():
 
 if __name__ == "__main__":
     asyncio.run(main())
+'''
