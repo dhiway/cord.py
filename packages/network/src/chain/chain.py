@@ -9,8 +9,9 @@ Communicates with the chain via WebSockets and can listen to blocks. It exposes 
 
 from substrateinterface import SubstrateInterface, Keypair
 from substrateinterface.exceptions import SubstrateRequestException
-from config.src.service import ConfigService
-from services import make_subscription_promise, SDKErrors, ErrorHandler
+from packages.config.src.service import ConfigService
+from subscriptionPromise import make_subscription_promise
+from errorHandling.errorHandler import ErrorHandler
 import asyncio
 
 TxOutdated = 'Transaction is outdated'
@@ -18,25 +19,25 @@ TxPriority = 'Priority is too low:'
 TxDuplicate = 'Transaction Already Imported'
 
 def is_ready(result):
-    return result.get('status', {}).get('isReady', False)
+    return result['status']['isReady']
 
 def is_in_block(result):
-    return result.get('status', {}).get('inBlock', False)
+    return result['isInBlock']
 
 def extrinsic_executed(result):
     return ErrorHandler.extrinsic_successful(result)
 
 def is_finalized(result):
-    return result.get('status', {}).get('isFinalized', False)
+    return result['isFinalized']
 
 def is_error(result):
-    return result.get('status', {}).get('isError', False) or result.get('internalError', None)
+    return result['isError'] or result['internalError']
 
 def extrinsic_failed(result):
     return ErrorHandler.extrinsic_failed(result)
 
 def default_resolve_on():
-    return ConfigService.get('submitTxResolveOn', is_finalized)
+    return ConfigService.get('submitTxResolveOn') if ConfigService.is_set('submitTxResolveOn') else is_finalized
 
 def convert_weight(weight):
     if 'refTime' in weight:
@@ -47,8 +48,7 @@ def convert_weight(weight):
 
 async def get_max_batchable(tx):
     api = ConfigService.get('api')
-    if not api.has_subscriptions:
-        raise SDKErrors.SubscriptionsNotSupportedError()
+    print(api)
     
     weight_info = await api.rpc.transaction_weightApi.query_weight_info(tx)
     extrinsic_ref_time = convert_weight(weight_info['weight'])
@@ -109,10 +109,11 @@ async def sign_and_submit_tx(tx, signer, opts=None):
     signed_tx = tx.sign(signer, nonce=nonce)
     return await submit_signed_tx(signed_tx, opts)
 
-'''
+
 # Example usage
 async def main():
     blockchain_rpc_ws_url = "ws://127.0.0.1:9944"
+
     api = await ConfigService.get('api')
     
     keypair = Keypair.create_from_uri('//Alice')
@@ -130,4 +131,3 @@ async def main():
 
 if __name__ == "__main__":
     asyncio.run(main())
-'''

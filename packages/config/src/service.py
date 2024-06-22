@@ -43,7 +43,7 @@ class ConfigService:
         """
         if key not in cls._config:
             if key == 'api':
-                raise SDKErrors.BlockchainApiMissingError()
+                raise Exception('Blockchain API is missing. Please set the "api" configuration.')
             else:
                 raise Exception(f'GENERIC NOT CONFIGURED ERROR FOR KEY: "{key}"')
         return cls._config.get(key, default)
