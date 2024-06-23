@@ -55,31 +55,3 @@ def make_subscription_promise_multi(args: list) -> Tuple[list, Callable]:
 
     return futures, subscription
 
-'''
-# Example usage
-async def example_usage():
-    resolve_on = lambda x: x == 'resolve'
-    reject_on = lambda x: x == 'reject'
-    termination_options = {
-        'resolveOn': resolve_on,
-        'rejectOn': reject_on,
-        'timeout': 5000  # 5 seconds timeout
-    }
-    
-    future, subscription = make_subscription_promise(termination_options)
-    
-    # Simulate subscription updates
-    loop = asyncio.get_event_loop()
-    loop.call_later(1, lambda: subscription('update'))
-    loop.call_later(2, lambda: subscription('resolve'))  # This should resolve the future
-    
-    try:
-        result = await future
-        print(f"Subscription resolved with: {result}")
-    except Exception as e:
-        print(f"Subscription failed with: {e}")
-
-'''
-
-if __name__ == "__main__":
-    asyncio.run(example_usage())
