@@ -112,6 +112,7 @@ async def sign_and_submit_tx(tx, signer, opts=None):
     return await submit_signed_tx(signed_tx, opts)
 
 
+'''
 # Example usage
 async def main():
     blockchain_rpc_ws_url = "ws://127.0.0.1:9944"
@@ -133,3 +134,4 @@ async def main():
 
 if __name__ == "__main__":
     asyncio.run(main())
+'''
