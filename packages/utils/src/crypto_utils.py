@@ -1,11 +1,12 @@
-from substrateinterface import SubstrateInterface, Keypair, KeypairType
+from substrateinterface import Keypair
 from substrateinterface.utils import ss58
 import hashlib
 import base58
 
 #generate mnemonic function
-
-
+def generate_mnemonic():
+    return Keypair.generate_mnemonic()
+    
 # Equivalent functions for blake2AsHex, blake2AsU8a
 def blake2_as_hex(data, digest_size=32):
     return hashlib.blake2b(data, digest_size=digest_size).hexdigest()
@@ -75,10 +76,13 @@ def u8a_to_string(u8a):
     return u8a.decode('utf-8')
 
 def u8a_to_u8a(data):
-    if isinstance(data, str):
-        return string_to_u8a(data)
-    elif isinstance(data, bytes):
+    if isinstance(data, bytes):
         return data
+    elif isinstance(data, str):
+        if data.startswith('0x'):
+            return bytes.fromhex(data[2:])
+        else:
+            return string_to_u8a(data)
     else:
-        raise ValueError("Unsupported data type")
+        raise TypeError("Unsupported input type for conversion to u8a")
 
