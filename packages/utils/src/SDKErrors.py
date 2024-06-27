@@ -4,6 +4,13 @@ class SDKError(Exception):
         self.name = self.__class__.__name__
         self.options = options
 
+#config
+class BlockchainApiMissingError(SDKError):
+    def __init__(self, options: dict = None):
+        message = 'Blockchain API is missing. Please set the "api" configuration.'
+        super().__init__(message, options)
+
+#network
 class SubscriptionsNotSupportedError(SDKError):
     def __init__(self, options: dict = None):
         message = (
@@ -12,3 +19,26 @@ class SubscriptionsNotSupportedError(SDKError):
         )
         super().__init__(message, options)
 
+class TimeoutError(SDKError):
+    def __init__(self, options: dict = None):
+        message = 'Promise timed out'
+        super().__init__(message, options)
+
+#identifier errors
+class InvalidURIError(SDKError):
+    pass
+
+class InvalidIdentifierError(SDKError):
+    pass
+
+class InvalidInputError(SDKError):
+    pass
+
+class Errors:
+    SDKError = SDKError
+    SubscriptionsNotSupportedError = SubscriptionsNotSupportedError
+    InvalidURIError = InvalidURIError
+    InvalidIdentifierError = InvalidIdentifierError
+    TimeoutError = TimeoutError
+    BlockchainApiMissingError = BlockchainApiMissingError
+    InvalidInputError = InvalidInputError

@@ -1,9 +1,6 @@
 import asyncio
 from typing import Callable, Any, Dict, Tuple
-
-class SDKErrors:
-    class TimeoutError(Exception):
-        pass
+from packages.utils.src.SDKErrors import Errors
 
 def make_subscription_promise(termination_options: Dict[str, Any]) -> Tuple[asyncio.Future, Callable]:
     """
@@ -30,7 +27,7 @@ def make_subscription_promise(termination_options: Dict[str, Any]) -> Tuple[asyn
                 future.set_result(value)
 
     if timeout > 0:
-        loop.call_later(timeout / 1000, lambda: future.set_exception(SDKErrors.TimeoutError()))
+        loop.call_later(timeout / 1000, lambda: future.set_exception(Errors.TimeoutError()))
 
     return future, subscription
 

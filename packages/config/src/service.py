@@ -24,10 +24,6 @@ application's runtime requirements.
 
 from typing import Any, Dict
 
-class SDKErrors:
-    class BlockchainApiMissingError(Exception):
-        pass
-
 class ConfigService:
     _config: Dict[str, Any] = {}
 

@@ -12,7 +12,7 @@ from substrateinterface.exceptions import SubstrateRequestException
 from packages.config.src.service import ConfigService
 from subscriptionPromise import make_subscription_promise
 from errorHandling.errorHandler import ErrorHandler
-from packages.utils.src.SDKErrors import SDKError, SubscriptionsNotSupportedError
+from packages.utils.src.SDKErrors import Errors
 import asyncio
 
 TxOutdated = 'Transaction is outdated'
@@ -72,7 +72,7 @@ async def submit_signed_tx(tx, opts=None):
     
     api = ConfigService.get('api')
     if not api.has_subscriptions:
-        raise SubscriptionsNotSupportedError()
+        raise Errors.SubscriptionsNotSupportedError()
     
     
     promise, subscription = make_subscription_promise(opts, resolve_on, reject_on)
