@@ -34,6 +34,27 @@ class InvalidIdentifierError(SDKError):
 class InvalidInputError(SDKError):
     pass
 
+#DID errors
+class InvalidDidFormatError(SDKError):
+    def __init__(self, did: str, options: dict = None):
+        message = f'Not a valid CORD DID "{did}"'
+        super().__init__(message, options)
+
+class DidError(SDKError):
+    pass
+
+class AddressInvalidError(SDKError):
+    def __init__(self, id,  options: dict = None):
+        if id and type:
+            message = f'Provided {type} identifier "{id}" is invalid'
+        elif id:
+            message = f'Provided identifier "{id}" is invalid'
+        else:
+            message = 'Provided identifier is invalid'
+        super().__init__(message, options)
+
+class AddressTypeError(SDKError):
+    pass
 class Errors:
     SDKError = SDKError
     SubscriptionsNotSupportedError = SubscriptionsNotSupportedError
@@ -42,3 +63,7 @@ class Errors:
     TimeoutError = TimeoutError
     BlockchainApiMissingError = BlockchainApiMissingError
     InvalidInputError = InvalidInputError
+    InvalidDidFormatError = InvalidDidFormatError
+    DidError = DidError
+    AddressInvalidError = AddressInvalidError
+    AddressTypeError = AddressTypeError
