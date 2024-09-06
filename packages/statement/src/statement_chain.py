@@ -121,7 +121,7 @@ async def prepare_extrinsic_to_register(
 
         if exists:
             raise Errors.DuplicateStatementError(
-                f"The statement is already anchored in the chain\nIdentifier: {stmt_entry['elementUri']}"
+                f"The statement is already anchored in the chain\nIdentifier: {stmt_entry['element_uri']}"
             )
 
         tx = api.compose_call(
